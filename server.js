@@ -15,8 +15,8 @@ app.db = router.db;
 app.use(cors());
 app.use(middlewares);
 app.use(rules);
-app.use(router);
 app.use(auth);
+app.use(router);
 app.listen(port, () => {
   console.log("server is listening");
 });
