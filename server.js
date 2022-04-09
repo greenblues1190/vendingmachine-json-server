@@ -1,10 +1,22 @@
-const jsonServer = require('json-server');
-const server = jsonServer.create();
-const router = jsonServer.router('db.json');
+const jsonServer = require("json-server");
+const auth = require("json-server-auth");
+const cors = require("json-server-cors");
+
+const app = jsonServer.create();
+const router = jsonServer.router("db.json");
 const middlewares = jsonServer.defaults();
 const port = process.env.PORT || 3000;
+const rules = auth.rewriter({
+  users: 660,
+});
 
-server.use(middlewares);
-server.use(router);
+app.db = router.db;
 
-server.listen(port);
+app.use(cors());
+app.use(middlewares);
+app.use(rules);
+app.use(router);
+app.use(auth);
+app.listen(port, () => {
+  console.log("server is listening");
+});
